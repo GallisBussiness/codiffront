@@ -237,7 +237,7 @@ function Session() {
       state: { data: p, idSession: id },
     });
 
-  const gotoResidents = () => navigate(`/dashboard/residents/${session}`);
+  const gotoResidents = (id) => navigate(`/dashboard/residents/${session}/${id}`);
 
   const printSelection = (d) => {
     navigate(`/dashboard/sessions/${session}/print/${d._id}`, {
@@ -256,7 +256,7 @@ function Session() {
         overlayBlur={2}
       />
       <div className="p-4 flex items-center justify-end">
-        <Button className="bg-cyan-700" onClick={() => gotoResidents()}>
+        <Button className="bg-cyan-700" onClick={() => gotoResidents(id)}>
           RESIDENTS DE LA SESSION <FaEye className="ml-1 inline " />
         </Button>
       </div>

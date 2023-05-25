@@ -11,7 +11,7 @@ import { FaBook } from "react-icons/fa";
 function Residents() {
   const [selectedInscrit, setSelectedInscrit] = useState(null);
   const [codifies, setCodifies] = useState([]);
-  const { session } = useParams();
+  const { session,id } = useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
   const key = ["getResidents", session];
@@ -60,7 +60,7 @@ function Residents() {
     return "bg-red-500";
   };
 
-  const actionBodyTemplate = (rowData) => {
+  const  actionBodyTemplate = (rowData) => {
     return (
       <div className="flex items-center justify-center space-x-1">
         <ActionIcon

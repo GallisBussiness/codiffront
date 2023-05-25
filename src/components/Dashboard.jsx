@@ -78,7 +78,7 @@ function Dashboard() {
             <Route path="etudiants/:id" element={<Etudiant />} />
             <Route path="users/create" element={<CreateUser />} />
             <Route path="users/update/:id" element={<UpdateUser />} />
-            <Route path="residents/:session" element={<Residents />} />
+            <Route path="residents/:session/:id" element={<Residents />} />
             <Route path="sessions" element={<Sessions />} />
             <Route path="sessions/:id" element={<Session />} />
             <Route path="sessions/:session/:formation" element={<Inscrits />} />
