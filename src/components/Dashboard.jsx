@@ -42,7 +42,7 @@ function Dashboard() {
       <div className="drawer drawer-mobile">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
-          <div className="navbar bg-orange-700">
+          <div className="navbar bg-sky-700">
             <div className="flex-none">
               <button className="btn btn-ghost">
                 <label
@@ -88,7 +88,7 @@ function Dashboard() {
             />
             <Route path="residences" element={<Residences />} />
             <Route path="residences/:id" element={<Residence />} />
-            <Route path="dossier/:ins" element={<Dossier />} />
+            <Route path="dossier/:ins/:session" element={<Dossier />} />
             <Route path="*" element={<P404 />} />
           </Routes>
         </div>
@@ -133,7 +133,7 @@ function Dashboard() {
             <div className="ml-5">
               <Button
                 onClick={logout}
-                className="bg-blue-500 hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2 animate-pulse"
+                className="bg-blue-500 hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
               >
                 SE DECONNECTER
               </Button>

@@ -232,6 +232,33 @@ function Session() {
     );
   };
 
+  const  actionEffDepTemplate = (rowData) => {
+    return (
+      <div className="flex items-center justify-center space-x-1">
+        <ActionIcon
+          color="green"
+          size="lg"
+           onClick={() => printSelection(rowData)}
+            >
+      <FaDownload size={26} />
+        </ActionIcon>
+      </div>
+    );
+  };
+  const  actionEffForTemplate = (rowData) => {
+    return (
+      <div className="flex items-center justify-center space-x-1">
+        <ActionIcon
+                      color="orange"
+                      size="lg"
+                      onClick={() => viewInscrits(rowData)}
+                    >
+                      <FaEye size={26} />
+                    </ActionIcon>
+      </div>
+    );
+  };
+
   const viewInscrits = (p) =>
     navigate(`/dashboard/sessions/${session}/${p.formation._id}`, {
       state: { data: p, idSession: id },
@@ -286,78 +313,117 @@ function Session() {
           </Table>
         </div>
       </div>
+      {/* ------------------ */}
       <div className="p-5 shadow-xl">
         <div className="flex flex-col items-center justify-center">
           <Title order={4}>EFFECTIFS PAR DEPARTEMENT </Title>
-          <Table>
-            <thead>
-              <tr>
-                <th>Nom</th>
-                <th>EFFECTIF</th>
-                <th>POURCENTAGE %</th>
-                <th>NOMBRE DE LITS</th>
-                <th>Options</th>
-              </tr>
-            </thead>
-            <tbody>
-              {totalByDepartments?.map((p) => (
-                <tr key={p._id}>
-                  <td>{p.departement.nom}</td>
-                  <td>{p.total}</td>
-                  <td>{p.percent} %</td>
-                  <td>{p.nb_lit}</td>
-                  <td>
-                    <ActionIcon
-                      color="green"
-                      size="lg"
-                      onClick={() => printSelection(p)}
-                    >
-                      <FaDownload size={26} />
-                    </ActionIcon>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <div className="w-full">
+            <DataTable
+              value={totalByDepartments}
+              paginator
+              rows={10}
+              size="small"
+              paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+              rowsPerPageOptions={[10, 25, 50]}
+              dataKey="departement.nom"
+              rowHover
+              filterDisplay="menu"
+              responsiveLayout="scroll"
+              globalFilterFields={["departement.nom"]}
+              emptyMessage="Aucun Session trouvé"
+              currentPageReportTemplate="Voir {first} de {last} à {totalRecords}"
+            >
+              <Column
+                field="departement.nom"
+                header="NOM DU DEPARTEMENT"
+                sortable
+                style={{ minWidth: "2rem" }}
+              />
+              <Column
+                field="total"
+                header="TOTAL"
+                sortable
+                style={{ minWidth: "2rem" }}
+              />
+              <Column
+                field="percent"
+                header="POURCENTAGE %"
+                style={{ minWidth: "2rem" }}
+              />
+              <Column
+                field="nb_lit"
+                header="NOMBRE DE LIT"
+                style={{ minWidth: "2rem" }}
+              />
+              <Column
+                headerStyle={{ width: "4rem", textAlign: "center" }}
+                bodyStyle={{ textAlign: "center", overflow: "visible" }}
+                body={actionEffDepTemplate}
+              />
+            </DataTable>
+          </div>
         </div>
       </div>
-      <div className="p-5 shadow-xl">
+      {/* ------------------ */}
+    
+       <div className="p-5 shadow-xl">
         <div className="flex flex-col items-center justify-center">
           <Title order={4}>EFFECTIFS PAR FORMATION </Title>
-          <Table>
-            <thead>
-              <tr>
-                <th>Nom</th>
-                <th>EFFECTIF</th>
-                <th>POURCENTAGE %</th>
-                <th>NOMBRE DE LITS</th>
-                <th>NOMBRE DE LITS HOMME</th>
-                <th>NOMBRE DE LITS FEMME</th>
-                <th>Options</th>
-              </tr>
-            </thead>
-            <tbody>
-              {effectifFormations?.map((p) => (
-                <tr key={p._id}>
-                  <td>{p.formation.nom}</td>
-                  <td>{p.total}</td>
-                  <td>{p.percent} %</td>
-                  <td>{p.nb_lit}</td>
-                  <td>{p.nb_lit_g}</td>
-                  <td>{p.nb_lit_f}</td>
-                  <td>
-                    <ActionIcon
-                      color="green"
-                      size="lg"
-                      onClick={() => viewInscrits(p)}
-                    >
-                      <FaEye size={26} />
-                    </ActionIcon>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <div className="w-full">
+            <DataTable
+              value={effectifFormations}
+              paginator
+              rows={10}
+              size="small"
+              paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+              rowsPerPageOptions={[10, 25, 50]}
+              dataKey="formation.nom"
+              rowHover
+              filterDisplay="menu"
+              responsiveLayout="scroll"
+              globalFilterFields={["formatiom.nom"]}
+              emptyMessage="Aucun Session trouvé"
+              currentPageReportTemplate="Voir {first} de {last} à {totalRecords}"
+            >
+              <Column
+                field="formation.nom"
+                header="NOM"
+                sortable
+                style={{ minWidth: "2rem" }}
+              />
+              <Column
+                field="total"
+                header="EFFECTIF"
+                sortable
+                style={{ minWidth: "2rem" }}
+              />
+              <Column
+                field="percent"
+                header="POURCENTAGE %"
+                style={{ minWidth: "2rem" }}
+              />
+              <Column
+                field="nb_lit"
+                header="NOMBRE DE LIT"
+                style={{ minWidth: "2rem" }}
+              />
+              <Column
+                field="nb_lit_g"
+                header="NOMBRE DE LIT POUR HOMME"
+                style={{ minWidth: "2rem" }}
+              />
+              <Column
+                field="nb_lit_f"
+                header="NOMBRE DE LIT POUR FEMME"
+                style={{ minWidth: "2rem" }}
+              />
+              <Column
+                headerStyle={{ width: "4rem", textAlign: "center" }}
+                bodyStyle={{ textAlign: "center", overflow: "visible" }}
+                body={actionEffForTemplate}
+              />
+            </DataTable>
+          </div>
         </div>
       </div>
       <div className="p-5 shadow-xl">

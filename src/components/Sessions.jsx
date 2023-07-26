@@ -29,6 +29,7 @@ function Sessions() {
   const [selectedSessions, setSelectedSessions] = useState(null);
   const qk = ["get_Sessions"];
   const { data: Sessions, isLoading } = useQuery(qk, () => getSessions());
+  console.log(Sessions);
   const qc = useQueryClient();
   const navigate = useNavigate();
   const toast = useRef();

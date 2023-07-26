@@ -9,7 +9,6 @@ import { ActionIcon, LoadingOverlay, Title } from "@mantine/core";
 import { getInscritsBySession } from "../services/etudiantApi";
 import { FaBook } from "react-icons/fa";
 function Residents() {
-  const [selectedInscrit, setSelectedInscrit] = useState(null);
   const [codifies, setCodifies] = useState([]);
   const { session,id } = useParams();
   const navigate = useNavigate();
@@ -66,7 +65,7 @@ function Residents() {
         <ActionIcon
           color="blue"
           size="lg"
-          onClick={() => navigate(`/dashboard/dossier/${rowData._id}`)}
+          onClick={() => navigate(`/dashboard/dossier/${rowData._id}/${id}`)}
         >
           <FaBook size={26} />
         </ActionIcon>
@@ -93,8 +92,6 @@ function Residents() {
               dataKey="_id"
               rowHover
               selectionMode="single"
-              onRowSelect={selectedInscrit}
-              selection={selectedInscrit}
               filters={filters}
               filterDisplay="menu"
               loading={isLoading}

@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { create } from "react-modal-promise";
-import { Button, NumberInput, Select } from "@mantine/core";
+import { Button, NumberInput} from "@mantine/core";
 
 const schema = yup
   .object({
@@ -29,10 +29,10 @@ const schema = yup
   .required();
 
 
-function CreateFicheModal({ isOpen, onResolve, onReject}) {
+function CreateFicheModal({ session,inscription,isOpen, onResolve, onReject}) {
     const defaultValues = {
-        session: "",
-        inscription: "",
+        session,
+        inscription,
         cite_sommierOuLit:0,
         cite_matelas90: 0,
         cite_draps: 0,
@@ -61,7 +61,42 @@ function CreateFicheModal({ isOpen, onResolve, onReject}) {
       });
     
       const onCreate = (data) => {
-        onResolve(data);
+        const {session,inscription,
+          cite_sommierOuLit,
+          cite_matelas90 ,
+          cite_draps,
+          cite_couverture,
+          cite_rideau_fenetre,
+          cite_tableDeTravail,
+          cite_chaises,
+          cite_etagere,
+          cite_lampeDeChevet,
+          cite_seau,
+          cite_corbeilleAPapiers,
+          cite_tableOreiller,
+          cite_oreiller,
+          resident_matelas,
+          resident_drap,
+          resident_couverture} = data;
+        const mobilier_cite = {
+        cite_sommierOuLit,
+        cite_matelas90 ,
+        cite_draps,
+        cite_couverture,
+        cite_rideau_fenetre,
+        cite_tableDeTravail,
+        cite_chaises,
+        cite_etagere,
+        cite_lampeDeChevet,
+        cite_seau,
+        cite_corbeilleAPapiers,
+        cite_tableOreiller,
+        cite_oreiller
+       };
+       const mobilier_resident = {resident_matelas,
+        resident_drap,
+        resident_couverture}
+        onResolve({session,inscription,mobilier_cite,mobilier_resident});
       };
   return (
     <>
