@@ -1,18 +1,29 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import { createDossier, getDossierByInscription } from "../services/dossierservice";
+import { createDossier, getDossierBySelectionne } from "../services/dossierservice";
 import { Button, LoadingOverlay } from "@mantine/core";
 import CreateFicheModal from "../crud/CreateFicheModal";
 import ModalContainer from "react-modal-promise";
 import { showNotification } from "@mantine/notifications";
 import DossierTab from "./DossierTab";
+import { useSessionStore } from "../store/session";
+import { shallow } from "zustand/shallow";
 
 function Dossier() {
-  const { ins,session } = useParams();
-  const key = ["getDossier", ins];
+  const { selectionne } = useParams();
+   const  qc = useQueryClient();
+  const {
+    session
+   } = useSessionStore(
+     (state) => ({
+       session:state.session
+     }),
+     shallow
+   );
+  const key = ["getDossier", selectionne];
   const { data: dossier, isLoading: loadingDossier } = useQuery(
     key,
-    () => getDossierByInscription(ins)
+    () => getDossierBySelectionne(selectionne)
   );
 
   const {mutate,isLoading:creatingDossier} = useMutation((data) => createDossier(data),{
@@ -22,6 +33,7 @@ function Dossier() {
         message: 'Le Dossier a ete bien cree !!',
         color:'green',
       });
+      qc.invalidateQueries(key)
     },
     onError:(err) => {
       showNotification({
@@ -33,8 +45,8 @@ function Dossier() {
   })
 
   const createFiche = () => {
-    CreateFicheModal({session,
-    inscription: ins}).then(mutate);
+    CreateFicheModal({session:session._id,
+    selectionne}).then(mutate);
   }
   return (
     <div className="w-full h-72">

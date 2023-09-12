@@ -1,18 +1,52 @@
+import { Button, LoadingOverlay } from '@mantine/core'
 import React from 'react'
+import UpdateFicheModal from '../crud/UpdateFicheModal';
+import { useMutation, useQueryClient } from 'react-query';
+import { updateDossier } from '../services/dossierservice';
+import { showNotification } from '@mantine/notifications';
+import UpdatePayementModal from '../crud/UpdatePayementModal';
 
 function DossierTab({dossier}) {
-    console.log(dossier)
+  const  qc = useQueryClient();
+  const key = ["getDossier", dossier?.selectionne._id];
+  const {mutate,isLoading} = useMutation((data) => updateDossier(dossier?._id,data),{
+    onSuccess:(_) => {
+      showNotification({
+        title: 'Modification dossier Réussi',
+        message: 'Le Dossier a ete bien modifie !!',
+        color:'green',
+      });
+      qc.invalidateQueries(key)
+    },
+    onError:(err) => {
+      showNotification({
+        title: 'Modification dossier Echoue',
+        message: 'La modification du Dossier a echoue !!',
+        color:'red',
+      })
+    }
+  })
+
+  const updateFiche = () => {
+    UpdateFicheModal({fiche:dossier}).then(mutate);
+  }
+
+  const UpdatePayement = () => {
+    UpdatePayementModal({dossier:dossier._id});
+  }
+
   return (
-    <>
-    <div className="flex flex-col w-full lg:flex-row">
-  <div className="grid flex-grow h-32 card bg-sky-700 rounded-box place-items-center text-white">
-    MOBILIER appartenant à la cité
-  </div> 
-  <div className="divider lg:divider-horizontal">ET</div> 
-  <div className="grid flex-grow h-32 card bg-sky-700 rounded-box place-items-center text-white">MOBILIER appartenant aux résidents</div>
-</div>
-<div className="flex flex-col justify-between w-8/12 mx-auto my-10 lg:flex-row ">
+    <div className="mx-10">
+      <LoadingOverlay visible={isLoading} overlayBlur={2} />
+    <div className="flex items-center space-x-2 mx-10 my-10">
+      <Button className="bg-sky-600" onClick={updateFiche}>MODIFIER LE DOSSIER </Button><Button className="bg-green-600" onClick={UpdatePayement}>GESTION DES PAIEMENTS</Button>
+    </div>
+    
+<div className="flex flex-col justify-between w-full  my-10 lg:flex-row">
 <div className="overflow-x-auto">
+<div className="p-10 w-full bg-sky-700 rounded-box place-items-center text-white my-5">
+    MOBILIER appartenant à la cité
+  </div>
   <table className="table">
     {/* head */}
     <thead>
@@ -79,6 +113,7 @@ function DossierTab({dossier}) {
 </div>
 
 <div className="overflow-x-auto">
+<div className="p-10 w-full bg-green-700 rounded-box  text-white my-5">MOBILIER appartenant aux résidents</div>
   <table className="table">
     {/* head */}
     <thead>
@@ -104,7 +139,7 @@ function DossierTab({dossier}) {
   </table>
 </div>
 </div>
-    </>
+    </div>
   )
 }
 

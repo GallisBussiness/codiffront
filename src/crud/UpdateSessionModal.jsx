@@ -5,10 +5,10 @@ import { Controller, useForm } from "react-hook-form";
 import { create } from "react-modal-promise";
 import {
   Button,
-  Checkbox,
   LoadingOverlay,
   NumberInput,
   Select,
+  Switch,
   TextInput,
 } from "@mantine/core";
 import { useState } from "react";
@@ -82,7 +82,7 @@ const UpdateSessionModal = ({ isOpen, onResolve, onReject, session }) => {
         header="Modifier une Séssion"
         visible={isOpen}
         onHide={() => onReject(false)}
-        className="w-1/2"
+        className="w-8/12"
       >
         <LoadingOverlay visible={isLooading} overlayBlur={2} />
         <form onSubmit={handleSubmit(onCreate)} method="POST">
@@ -108,9 +108,7 @@ const UpdateSessionModal = ({ isOpen, onResolve, onReject, session }) => {
               )}
             />
           </div>
-          <div className="flex space-x-2 my-2">
-            <div className="flex flex-col space-y-2 w-full ">
-              <div>
+          <div>
                 <Controller
                   control={control}
                   name="annee"
@@ -124,6 +122,9 @@ const UpdateSessionModal = ({ isOpen, onResolve, onReject, session }) => {
                   )}
                 />
               </div>
+          <div className="flex space-x-2 my-2">
+            <div className="flex flex-col space-y-2 w-full ">
+             
               <div>
                 <Controller
                   control={control}
@@ -155,21 +156,7 @@ const UpdateSessionModal = ({ isOpen, onResolve, onReject, session }) => {
                   )}
                 />
               </div>
-              <div>
-                <Controller
-                  control={control}
-                  name="amicale"
-                  render={({ field }) => (
-                    <NumberInput
-                      value={field.value}
-                      onChange={field.onChange}
-                      label="Amicale"
-                      error={errors.amicale && errors.amicale.message}
-                      placeholder="amicale"
-                    />
-                  )}
-                />
-              </div>
+              
               <div>
                 <Controller
                   control={control}
@@ -215,8 +202,6 @@ const UpdateSessionModal = ({ isOpen, onResolve, onReject, session }) => {
                   )}
                 />
               </div>
-            </div>
-            <div className="flex flex-col space-y-2 w-full">
               <div>
                 <Controller
                   control={control}
@@ -243,6 +228,24 @@ const UpdateSessionModal = ({ isOpen, onResolve, onReject, session }) => {
                       label="Master 2"
                       error={errors.master2 && errors.master2.message}
                       placeholder="master 2"
+                    />
+                  )}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col space-y-2 w-full">
+             
+              <div>
+                <Controller
+                  control={control}
+                  name="amicale"
+                  render={({ field }) => (
+                    <NumberInput
+                      value={field.value}
+                      onChange={field.onChange}
+                      label="Inter-Amicale"
+                      error={errors.amicale && errors.amicale.message}
+                      placeholder="inter-amicale"
                     />
                   )}
                 />
@@ -312,13 +315,15 @@ const UpdateSessionModal = ({ isOpen, onResolve, onReject, session }) => {
                   control={control}
                   name="etat"
                   render={({ field }) => (
-                    <Checkbox
-                      label="Etat de la session"
-                      checked={field.value}
-                      onChange={(event) =>
-                        field.onChange(event.currentTarget.checked)
-                      }
-                    />
+                    <Switch
+                    size="lg"
+                    onLabel="ACTIVE" offLabel="INACTIVE"
+                    label="Etat de la session"
+                    checked={field.value}
+                    onChange={(event) =>
+                      field.onChange(event.currentTarget.checked)
+                    }
+                  />
                   )}
                 />
               </div>

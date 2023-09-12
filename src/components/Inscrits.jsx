@@ -25,18 +25,11 @@ import ReactToPrint from "react-to-print";
 import { SelectionnePedagogiquePrint } from "./SelectionnePedagogiquePrint";
 
 function Inscrits() {
-  const [selectedInscrit, setSelectedInscrit] = useState(null);
-  const { session, formation } = useParams();
-  const qc = useQueryClient();
-  const { state } = useLocation();
   const [selectionHomme, setSelectionneHomme] = useState(0);
   const [selectionFemme, setSelectionneFemme] = useState(0);
   const [restantHomme, setRestantHomme] = useState(0);
   const [restantFemme, setRestantFemme] = useState(0);
-  const componentRef = useRef();
-  const key = ["getInscrits", session, formation];
   const keyTi = ["getTotalSelectionnes", session, formation];
-  const keyI = ["getInscrits", session];
   const { data: ts, isLoading: isloadingts } = useQuery(
     keyTi,
     () => getSelectionneBySessionAndFormation(state.idSession, formation),
@@ -51,10 +44,7 @@ function Inscrits() {
       },
     }
   );
-  const { data, isLoading } = useQuery(key, () =>
-    getInscrits(session, formation)
-  );
-
+ 
   const { mutate: addSelectionne } = useMutation((d) => createSelectionne(d), {
     onSuccess: (_) => {
       notifications.show({
@@ -131,7 +121,6 @@ function Inscrits() {
         }
 
         if (ts.find((s) => s.inscription._id === d._id)) {
-          console.log("hjdhdhd");
           notifications.show({
             title: "Déja sélectionné",
             message: "Etudiant déja sélectionné ..",
@@ -191,7 +180,6 @@ function Inscrits() {
 
   return (
     <>
-      <LoadingOverlay visible={isLoading || isloadingts} overlayBlur={2} />
       <div className="p-5 shadow-xl">
         <div className="flex flex-col items-center justify-center">
           <Title order={4}>QUOTAS HOMMES</Title>

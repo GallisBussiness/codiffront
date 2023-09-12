@@ -28,27 +28,26 @@ const schema = yup
   })
   .required();
 
-
-function CreateFicheModal({ session,selectionne,isOpen, onResolve, onReject}) {
+function UpdateFicheModal({ fiche,isOpen, onResolve, onReject}) {
     const defaultValues = {
-        session,
-        selectionne,
-        cite_sommierOuLit:0,
-        cite_matelas90: 0,
-        cite_draps: 0,
-        cite_couverture: 0,
-        cite_rideau_fenetre: 0,
-        cite_tableDeTravail: 0,
-        cite_chaises: 0,
-        cite_etagere: 0,
-        cite_lampeDeChevet: 0,
-        cite_seau: 0,
-        cite_corbeilleAPapiers: 0,
-        cite_tableOreiller: 0,
-        cite_oreiller: 0,
-        resident_matelas: 0,
-        resident_drap: 0,
-        resident_couverture: 0
+        session: fiche?.session,
+        selectionne: fiche?.selectionne?._id,
+        cite_sommierOuLit: fiche?.mobilier_cite.cite_sommierOuLit,
+        cite_matelas90: fiche?.mobilier_cite.cite_matelas90,
+        cite_draps: fiche?.mobilier_cite.cite_draps,
+        cite_couverture: fiche?.mobilier_cite.cite_couverture,
+        cite_rideau_fenetre: fiche?.mobilier_cite.cite_rideau_fenetre,
+        cite_tableDeTravail: fiche?.mobilier_cite.cite_tableDeTravail,
+        cite_chaises: fiche?.mobilier_cite.cite_chaises,
+        cite_etagere: fiche?.mobilier_cite.cite_etagere,
+        cite_lampeDeChevet: fiche?.mobilier_cite.cite_lampeDeChevet,
+        cite_seau: fiche?.mobilier_cite.cite_seau,
+        cite_corbeilleAPapiers: fiche?.mobilier_cite.cite_corbeilleAPapiers,
+        cite_tableOreiller: fiche?.mobilier_cite.cite_tableOreiller,
+        cite_oreiller: fiche?.mobilier_cite.cite_oreiller,
+        resident_matelas: fiche?.mobilier_resident.resident_matelas,
+        resident_drap: fiche?.mobilier_resident.resident_drap,
+        resident_couverture: fiche?.mobilier_resident.resident_couverture
       };
     
       const {
@@ -98,10 +97,11 @@ function CreateFicheModal({ session,selectionne,isOpen, onResolve, onReject}) {
         resident_couverture}
         onResolve({session,selectionne,mobilier_cite,mobilier_resident});
       };
+
   return (
     <>
-         <Dialog
-        header="Créer une Fiche"
+     <Dialog
+        header="Modifier la fiche"
         visible={isOpen}
         onHide={() => onReject(false)}
         className="w-8/12"
@@ -348,7 +348,7 @@ function CreateFicheModal({ session,selectionne,isOpen, onResolve, onReject}) {
             </div>
             <div className="flex items-center justify-center">
               <Button type="submit" className="bg-green-900 hover:bg-green-900">
-                CREER LA FICHE
+                MODIFIER LA FICHE
               </Button>
             </div>
               
@@ -359,4 +359,4 @@ function CreateFicheModal({ session,selectionne,isOpen, onResolve, onReject}) {
   )
 }
 
-export default create(CreateFicheModal)
+export default create(UpdateFicheModal)

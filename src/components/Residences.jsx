@@ -235,7 +235,7 @@ function Residences() {
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             rowsPerPageOptions={[10, 25, 50]}
             dataKey="_id"
-            rowHover
+            size="small"
             selection={selectedResidences}
             onSelectionChange={(e) => setSelectedResidences(e.value)}
             filters={filters}

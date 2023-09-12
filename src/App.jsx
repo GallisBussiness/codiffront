@@ -2,7 +2,6 @@ import "primereact/resources/themes/saga-orange/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "./index.css";
-import "./app.css";
 import { AuthProvider, useIsAuthenticated } from "react-auth-kit";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";

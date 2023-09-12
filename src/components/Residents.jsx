@@ -6,23 +6,25 @@ import { DataTable } from "primereact/datatable";
 import { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { ActionIcon, LoadingOverlay, Title } from "@mantine/core";
-import { getInscritsBySession } from "../services/etudiantApi";
 import { FaBook } from "react-icons/fa";
+import { getSelectionneBySession} from "../services/selectionneService";
+import { useSessionStore } from "../store/session";
+import { shallow } from "zustand/shallow";
 function Residents() {
-  const [codifies, setCodifies] = useState([]);
-  const { session,id } = useParams();
   const navigate = useNavigate();
-  const qc = useQueryClient();
-  const key = ["getResidents", session];
-  const { isLoading } = useQuery(key, () => getInscritsBySession(session), {
-    onSuccess: (_) => {
-      setCodifies(_.filter((c) => c.is_codified));
-    },
-  });
-
+  const {
+    session
+   } = useSessionStore(
+     (state) => ({
+       session:state.session
+     }),
+     shallow
+   );
+  const key = ["getResidents", session._id];
+  const { isLoading, data } = useQuery(key, () => getSelectionneBySession(session._id));
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    "etudiant.nce": {
+    "inscription.etudiant.nce": {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
@@ -42,7 +44,7 @@ function Residents() {
     return (
       <div className="flex justify-between items-center">
         <h5 className="m-0 uppercase">
-          Liste Des étudiants codifiés pour la session
+          Liste Des étudiants codifiés pour la session {session?.nom}
         </h5>
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
@@ -55,9 +57,7 @@ function Residents() {
       </div>
     );
   };
-  const rowClass = (data) => {
-    return "bg-red-500";
-  };
+  
 
   const  actionBodyTemplate = (rowData) => {
     return (
@@ -65,7 +65,7 @@ function Residents() {
         <ActionIcon
           color="blue"
           size="lg"
-          onClick={() => navigate(`/dashboard/dossier/${rowData._id}/${id}`)}
+          onClick={() => navigate(`dossier/${rowData._id}`)}
         >
           <FaBook size={26} />
         </ActionIcon>
@@ -79,51 +79,56 @@ function Residents() {
       <LoadingOverlay visible={isLoading} overlayBlur={2} />
       <div className="p-5 shadow-xl">
         <div className="flex flex-col items-center justify-center">
-          <Title order={4}>DOSSIERS RESIDENTS </Title>
-          <div className="w-full">
+          <Title order={4}>RESIDENTS DE LA SESSION {session?.nom}</Title>
+          <div className="w-full my-10">
             <DataTable
-              value={codifies}
+              value={data}
               paginator
-              rowClassName={rowClass}
               header={header}
               rows={10}
+              size="small"
               paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
               rowsPerPageOptions={[10, 25, 50]}
               dataKey="_id"
-              rowHover
               selectionMode="single"
               filters={filters}
               filterDisplay="menu"
               loading={isLoading}
               responsiveLayout="scroll"
-              globalFilterFields={["etudiant.nce", "etudiant.cni"]}
+              globalFilterFields={["inscription.etudiant.nce", "inscription.etudiant.cni"]}
               emptyMessage="Aucun étudiants trouvé"
               currentPageReportTemplate="Voir {first} de {last} à {totalRecords} etudiants"
             >
               <Column
-                field="etudiant.nce"
+                field="inscription.etudiant.nce"
                 header="NCE"
                 sortable
                 style={{ minWidth: "2rem" }}
               />
+               <Column
+                field="typeCodif"
+                header="CODIFICATION"
+                sortable
+                style={{ minWidth: "2rem" }}
+              />
               <Column
-                field="etudiant.cni"
+                field="inscription.etudiant.cni"
                 header="CNI"
                 style={{ minWidth: "2rem" }}
               />
               <Column
-                field="etudiant.prenom"
+                field="inscription.etudiant.prenom"
                 header="PRENOM"
                 style={{ minWidth: "2rem" }}
               />
               <Column
-                field="etudiant.nom"
+                field="inscription.etudiant.nom"
                 header="NOM"
                 style={{ minWidth: "2rem" }}
               />
 
               <Column
-                field="formation.nom"
+                field="inscription.formation.nom"
                 header="FORMATION"
                 sortable
                 style={{ minWidth: "2rem" }}

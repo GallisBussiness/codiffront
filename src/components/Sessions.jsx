@@ -23,13 +23,11 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import { ActionIcon, Button, LoadingOverlay } from "@mantine/core";
-import { format, parseISO } from "date-fns";
 
 function Sessions() {
   const [selectedSessions, setSelectedSessions] = useState(null);
   const qk = ["get_Sessions"];
   const { data: Sessions, isLoading } = useQuery(qk, () => getSessions());
-  console.log(Sessions);
   const qc = useQueryClient();
   const navigate = useNavigate();
   const toast = useRef();
@@ -172,7 +170,7 @@ function Sessions() {
   const renderHeader = () => {
     return (
       <div className="flex justify-between items-center">
-        <h5 className="m-0">Liste des Sessions</h5>
+        <h5 className="m-0 uppercase">Liste des Sessions</h5>
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
           <InputText
@@ -206,12 +204,15 @@ function Sessions() {
     );
   };
 
-  const header = renderHeader();
-  const dateTemplate = (row) =>
-    format(parseISO(row?.dateDeNaissance), "dd-MM-yyyy");
-  const createdTemplate = (row) =>
-    row?.createdAt ? format(parseISO(row?.createdAt), "dd-MM-yyyy") : "neant";
+   const pedagogiqueTemplate  = (v) => `${v.pedagogique}%`;
+   const socialeTemplate  = (v) => `${v.sociale}%`;
+   const interamicaleTemplate  = (v) => `${v.amicale}%`;
+   const licence1Template  = (v) => `${v.licence1}%`;
+   const licence2Template  = (v) => `${v.licence2}%`;
+   const licence3Template  = (v) => `${v.licence3}%`;
+   const autreTemplate  = (v) => `${v.autre}%`;
 
+  const header = renderHeader();
   return (
     <div className="bg-white">
       <LoadingOverlay
@@ -231,7 +232,7 @@ function Sessions() {
       </div>
       <div className="datatable-doc mt-4 mx-10">
         <div className="card">
-          <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
+          <Toolbar className="mb-4 bg-sky-600" left={leftToolbarTemplate}></Toolbar>
           <DataTable
             value={Sessions}
             paginator
@@ -241,7 +242,6 @@ function Sessions() {
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             rowsPerPageOptions={[10, 25, 50]}
             dataKey="_id"
-            rowHover
             selection={selectedSessions}
             onSelectionChange={(e) => setSelectedSessions(e.value)}
             filters={filters}
@@ -260,38 +260,43 @@ function Sessions() {
               field="annee"
               header="Annee"
               sortable
-              body={createdTemplate}
               style={{ minWidth: "2rem" }}
             />
             <Column
               field="pedagogique"
               header="Pedagogique"
+              body={pedagogiqueTemplate}
               style={{ minWidth: "2rem" }}
             />
             <Column
               field="sociale"
               header="Sociale"
+              body={socialeTemplate}
               style={{ minWidth: "2rem" }}
             />
             <Column
               field="amicale"
-              header="Amicale"
+              header="InterAmicale"
+              body={interamicaleTemplate}
               style={{ minWidth: "2rem" }}
             />
-            <Column field="autre" header="Autre" style={{ minWidth: "2rem" }} />
+            <Column field="autre" header="Autre" body={autreTemplate} style={{ minWidth: "2rem" }} />
             <Column
               field="licence1"
               header="Licence1"
+              body={licence1Template}
               style={{ minWidth: "2rem" }}
             />
             <Column
               field="licence2"
               header="Licence2"
+              body={licence2Template}
               style={{ minWidth: "2rem" }}
             />
             <Column
               field="licence3"
               header="Licence3"
+              body={licence3Template}
               style={{ minWidth: "2rem" }}
             />
             <Column
