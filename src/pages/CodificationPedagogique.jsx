@@ -14,6 +14,7 @@ function CodificationPedagogique() {
   const {
    totalByDepartments,
    session
+   
   } = useSessionStore(
     (state) => ({
       totalByDepartments: state.totalByDepartments,

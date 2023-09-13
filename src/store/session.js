@@ -9,6 +9,8 @@ export const useSessionStore = create(
       effectifFormations: [],
       session: null,
       setSession: (id) => set({session: id}),
+      sessionCodif: null,
+      setSessionCodif: (id) => set({sessionCodif: id}),
       inscrits: [],
       setInscrits: (list) => set({inscrits: list}),
       setTotalByDepartments:(list) => set({totalByDepartments: list}),

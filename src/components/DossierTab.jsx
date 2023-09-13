@@ -38,9 +38,24 @@ function DossierTab({dossier}) {
   return (
     <div className="mx-10">
       <LoadingOverlay visible={isLoading} overlayBlur={2} />
-    <div className="flex items-center space-x-2 mx-10 my-10">
-      <Button className="bg-sky-600" onClick={updateFiche}>MODIFIER LE DOSSIER </Button><Button className="bg-green-600" onClick={UpdatePayement}>GESTION DES PAIEMENTS</Button>
-    </div>
+      <div className="flex items-center justify-between space-x-2 border-2 p-2">
+        <div className="flex items-center space-x-2 mx-10 my-5">
+        <Button className="bg-sky-600" onClick={updateFiche}>MODIFIER LE DOSSIER </Button><Button className="bg-green-600" onClick={UpdatePayement}>GESTION DES PAIEMENTS</Button>
+      </div>
+       <div>
+        <div className="flex items-center justify-center py-5 bg-sky-600 px-10 text-white font-bold">
+          PROPRIETAIRE DU DOSSIER
+        </div>
+        <div className="flex flex-col">
+          <h3>PRENOM : {dossier?.selectionne.inscription.etudiant.prenom}</h3>
+          <h3>NOM : {dossier?.selectionne.inscription.etudiant.nom}</h3>
+          <h3>NCE : {dossier?.selectionne.inscription.etudiant.nce}</h3>
+          <h3>email : {dossier?.selectionne.inscription.etudiant.email}</h3>
+          <h3>TEL : {dossier?.selectionne.inscription.etudiant.telephone}</h3>
+        </div>
+       </div>
+      </div>
+    
     
 <div className="flex flex-col justify-between w-full  my-10 lg:flex-row">
 <div className="overflow-x-auto">

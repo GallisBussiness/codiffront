@@ -33,15 +33,17 @@ function InscritsPedagogique() {
     const qc = useQueryClient();
     const {
         formation,
-        session
+        session,
+        sessionCodif
        } = useSessionStore(
          (state) => ({
            formation: findFormation(state.effectifFormations,idfor),
-           session:state.session
+           session:state.session,
+           sessionCodif: state.sessionCodif
          }),
          shallow
        );
-       const key = ["get_Inscrits", session._id,idfor];
+       const key = ["get_Inscrits", sessionCodif._id,idfor];
     const keyTi = ["getTotalSelectionnes", session._id,idfor];
     const { data: ts, isLoading: isloadingts } = useQuery(
       keyTi,
@@ -60,7 +62,7 @@ function InscritsPedagogique() {
 
     const { data: inscrits, isLoading } = useQuery(
         key,
-        () => getInscrits(session._id, idfor),
+        () => getInscrits(sessionCodif._id, idfor),
       );
 
     

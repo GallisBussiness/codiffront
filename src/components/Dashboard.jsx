@@ -22,6 +22,7 @@ import CodificationPedagogique from "../pages/CodificationPedagogique";
 import FormationList from "../pages/FormationList";
 import InscritsPedagogique from "../pages/InscritsPedagogique";
 import CodificationSociale from "../pages/CodificationSociale";
+import ImpressionDoc from "../pages/ImpressionDoc";
 
 function Dashboard() {
   const auth = useAuthUser()();
@@ -86,15 +87,11 @@ function Dashboard() {
             <Route path="sessions/:id/residents/dossier/:selectionne" element={<Dossier />} />
             <Route path="sessions" element={<Sessions />} />
             <Route path="sessions/:id" element={<SessionV2 />} />
+            <Route path="sessions/:id/impression-doc" element={<ImpressionDoc />} />
             <Route path="sessions/:id/codification-pedagogique" element={<CodificationPedagogique />} />
             <Route path="sessions/:id/codification-pedagogique/:iddep/formations" element={<FormationList />} />
             <Route path="sessions/:id/codification-pedagogique/:iddep/formations/:idfor" element={<InscritsPedagogique />} />
             <Route path="sessions/:id/codification-sociale" element={<CodificationSociale />} />
-            {/* <Route path="sessions/:session/:formation" element={<Inscrits />} />
-            <Route
-              path="sessions/:session/print/:departement"
-              element={<DepartementSelection />}
-            /> */}
             <Route path="residences" element={<Residences />} />
             <Route path="residences/:id" element={<Residence />} />
             <Route path="*" element={<P404 />} />

@@ -29,20 +29,22 @@ function CodificationSociale() {
   const [restantFemme, setRestantFemme] = useState(0);
   const qc = useQueryClient();
     const {
+        sessionCodif,
         session,
         calculs
        } = useSessionStore(
          (state) => ({
-           session:state.session,
+          session: state.session,
+           sessionCodif:state.sessionCodif,
            calculs:state.calculs
          }),
          shallow
        );
-       const key = ["get_Inscrits", session._id];
-    const keyTi = ["getTotalSelectionnesSociale", session._id];
+       const key = ["get_Inscrits", sessionCodif._id];
+    const keyTi = ["getTotalSelectionnesSociale", sessionCodif._id];
     const { data: ts, isLoading: isloadingts } = useQuery(
       keyTi,
-      () => getSelectionneSocialeBySession(session._id),
+      () => getSelectionneSocialeBySession(sessionCodif._id),
       {
         onSuccess: (_) => {
           const sh = _.filter((s) => s.inscription.etudiant.sexe === "H").length;
@@ -57,7 +59,7 @@ function CodificationSociale() {
 
     const { data: inscrits, isLoading } = useQuery(
         key,
-        () => getInscritsBySession(session._id),
+        () => getInscritsBySession(sessionCodif._id),
       );
 
     
